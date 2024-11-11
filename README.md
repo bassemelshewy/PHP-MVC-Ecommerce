@@ -90,7 +90,7 @@ This project is a simple e-commerce platform built using the MVC architecture in
 - **Order Details**: Clicking on an order shows the order's details, including the product(s) purchased, and total cost.
 
 
-### URLs to Access Different Sections:
+## URLs to Access Different Sections:
 
 1. **Home Page**: http://localhost:8000/views/front/pages/home.php
 2. **Admin Dashboard**: http://localhost:8000/views/dashboard/home.php
