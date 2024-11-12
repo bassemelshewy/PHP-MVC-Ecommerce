@@ -11,32 +11,32 @@ if (isset($_SESSION['userId'])) {
 }
 include __DIR__ . '/../../../controllers/UserController.php';
 
+$userController = new UserController();
+
+$nameErr = $emailErr = $passwordErr = $confPasswordErr = "";
+$name = $email = $password = $password_confirmation = "";
+$hasErr = false;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $password_confirmation = $_POST['password_confirmation'];
-    // var_dump($email);
-    // return 0;
 
-    if (empty($email)) {
-        die('Email is not set or empty.');
-    }
+    [$hasErr, $nameErr, $emailErr, $passwordErr, $confPasswordErr] = $userController->validation($name, $email, $password, $password_confirmation);
+    
+    if (!$hasErr) {
+        $user = $userController->find($email, 'email');
 
-    if ($password !== $password_confirmation) {
-        die('Passwords do not match.');
-    }
-    $userController = new UserController();
-    $user = $userController->find($email, 'email');
+        if ($user) {
+            die('User already exists');
+        }
 
-    if ($user) {
-        die('User already exists');
-    }
-
-    if ($userController->register($name, $email, $password)) {
-        header('Location: login.php');
-    } else {
-        die('User registration failed');
+        if ($userController->register($name, $email, $password)) {
+            header('Location: login.php');
+        } else {
+            die('User registration failed');
+        }
     }
 }
 
@@ -75,34 +75,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <p class="mb-0">Register a new membership</p>
                             </div>
                             <div class="p-40">
-                                <form action="" method="POST" onsubmit="return validation()">
+                                <form action="" method="POST" novalidate>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-text bg-transparent"><i class="ti-user"></i></span>
                                             <input type="text" class="form-control ps-15 bg-transparent "
-                                                placeholder="Full Name" name="name" required>
+                                                placeholder="Full Name" name="name" value="<?php echo htmlspecialchars($name) ?>">
                                         </div>
+                                        <span class="error" style="color: red;"> <?php echo $nameErr;?></span>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-text bg-transparent"><i class="ti-email"></i></span>
                                             <input type="email" class="form-control ps-15 bg-transparent" placeholder="Email"
-                                                name="email" required>
+                                                name="email" value="<?php echo htmlspecialchars($email) ?>">
                                         </div>
+                                        <span class="error" style="color: red;"> <?php echo $emailErr;?></span>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-text bg-transparent"><i class="ti-lock"></i></span>
                                             <input type="password" class="form-control ps-15 bg-transparent" placeholder="Password"
-                                                name="password" minlength="6" required>
+                                                name="password" >
                                         </div>
+                                        <span class="error" style="color: red;"><?php echo $passwordErr;?></span>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-text bg-transparent"><i class="ti-lock"></i></span>
                                             <input type="password" class="form-control ps-15 bg-transparent"
-                                                placeholder="Retype Password" name="password_confirmation" minlength="6" required>
+                                                placeholder="Retype Password" name="password_confirmation">
                                         </div>
+                                        <span class="error" style="color:red;"><?php echo $confPasswordErr;?></span>
                                     </div>
                                     <div class="col-12 text-center">
                                         <button type="submit" class="btn btn-info margin-top-10">SIGN IN</button>

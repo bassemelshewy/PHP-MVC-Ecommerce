@@ -7,6 +7,10 @@ require_once __DIR__ . '/../../../controllers/CategoryController.php';
 $category_id = isset($_GET['category_id']) ? intval($_GET['category_id']) : null;
 $search = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : null;
 
+if(empty($category_id) && empty($search)){
+    die('You must specify a category or a search');
+}
+
 if ($category_id) {
     $category = (new \controllers\CategoryController())->find($category_id);
     if (!$category) {
@@ -63,12 +67,12 @@ $products = (new \controllers\front\ProductController())->viewAll($category_id, 
                 </h2>
                 <hr class="w-25 mx-auto" style="border-top: 3px solid #007bff;">
             </div>
-            
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="products-carousel swiper">
                         <div class="swiper-wrapper d-flex">
-
+                            <?php if($products) : ?>
                             <?php foreach ($products as $product): ?>
                                 <div class="product-item swiper-slide" style="flex: 0 0 20%; max-width: 20%;">
                                     <figure class="mb-3">
@@ -104,6 +108,11 @@ $products = (new \controllers\front\ProductController())->viewAll($category_id, 
                                 </div>
                         </div>
                     <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="container text-center">
+                            <h2>No Products Available.</h2>
+                        </div>
+                    <?php endif; ?>
 
                     </div>
                 </div>

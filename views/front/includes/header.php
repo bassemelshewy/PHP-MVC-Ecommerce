@@ -132,7 +132,7 @@ foreach ($cart as $item) {
                             <strong>$<?php echo htmlspecialchars($total) ?></strong>
                         </li>
                 </ul>
-                <a href="view_cart.php" class="w-100 btn btn-primary btn-lg">Continue to checkout</a>
+                <a href="view_cart.php" class="w-100 btn btn-primary btn-lg">View cart details</a>
             <?php else: ?>
                 <p class="text-center">Your cart is empty.</p>
             <?php endif; ?>

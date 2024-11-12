@@ -51,9 +51,6 @@ $socials = (new SocialController())->index();
                             <a href="/views/front/pages/staticPage.php?slug=privacy-policy" class="nav-link">Privacy Policy</a>
                         </li>
                         <li class="menu-item">
-                            <a href="/views/front/pages/staticPage.php?slug=cookie-guidelines" class="nav-link">Cookie Guidelines</a>
-                        </li>
-                        <li class="menu-item">
                             <a href="/views/front/pages/staticPage.php?slug=delivery-information" class="nav-link">Delivery Information</a>
                         </li>
                     </ul>

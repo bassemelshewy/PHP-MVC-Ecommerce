@@ -25,9 +25,4 @@ class Database{
         return $this->connection;
     }
 
-    // public function __destruct(){
-    //     if($this->connection){
-    //         $this->connection->close();
-    //     }
-    // }
 }
